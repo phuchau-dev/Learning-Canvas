@@ -1,0 +1,5 @@
+.circle {
+  background-color: blue;
+  border-radius: 50%;
+  transition: width 0.1s linear, height 0.1s linear;
+}

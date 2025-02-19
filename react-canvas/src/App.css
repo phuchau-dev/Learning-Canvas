@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Đảm bảo luôn full màn hình */
+  background-color: #f0f0f0;
+  padding: 20px;
+}
+
+/* Breakpoint cho điện thoại nhỏ */
+@media only screen and (max-width: 600px) {
+  .container {
+    flex-direction: column; /* Chuyển hướng dọc */
+    padding: 10px;
+  }
+}
+
+/* Breakpoint cho máy tính bảng */
+@media only screen and (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+}
+
+/* Breakpoint cho laptop */
+@media only screen and (max-width: 992px) {
+  .container {
+    padding: 25px;
+  }
+}
