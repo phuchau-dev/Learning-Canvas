@@ -1,0 +1,16 @@
+# Node modules
+react-canvas/node_modules/
+
+
+# Environment files
+react-canvas/.env
+
+
+# Package lock files
+react-canvas/package-lock.json
+
+
+# Miscellaneous
+.DS_Store
+.vscode/
+*.log
