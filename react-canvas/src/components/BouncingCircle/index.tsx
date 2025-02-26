@@ -1,43 +1,52 @@
-import { useState, useEffect, useRef } from "react";
-import styles from "./style.module.css"; 
-import { COLORS } from "../../constants/colors"; 
+import { useRef } from "react";
+import { useBouncingCircleCanvas } from "./useBouncingCircle";
+import type { BouncingCircleProps } from "./types";
+import { COLORS } from "../../constants/colors";
+import Style from "./style.module.css";
 
-const BouncingCircle = () => {
-  const [size, setSize] = useState(20);
-  const growingRef = useRef(true); // Dùng useRef để lưu trạng thái
+/**
+ * Component BouncingCircleCanvas
+ * -----------------------------------------
+ * - Hiển thị một vòng tròn động trên canvas với hiệu ứng nảy lên xuống.
+ * - Sử dụng `useBouncingCircleCanvas` để điều khiển animation.
+ * - Cho phép tùy chỉnh màu sắc, kích thước, tốc độ, vị trí...
+ */
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setSize((prevSize) => {
-        if (growingRef.current) {
-          if (prevSize >= 400) {
-            growingRef.current = false;
-            return prevSize - 5;
-          }
-          return prevSize + 5;
-        } else {
-          if (prevSize <= 20) {
-            growingRef.current = true;
-            return prevSize + 5;
-          }
-          return prevSize - 5;
-        }
-      });
-    }, 50);
+const BouncingCircleCanvas: React.FC<BouncingCircleProps> = ({
+    color,
+    initialSize = 50,
+    maxSize = 300,
+    minSize = 20,
+    step = 3,
+    positionX,
+    positionY,
+    backgroundColor = COLORS.BACKGROUND_BLUE,
+}) => {
+    // useRef để giữ tham chiếu đến thẻ <canvas>
+    const canvasRef = useRef<HTMLCanvasElement>(null);
 
-    return () => clearInterval(interval); // Dọn dẹp interval khi component unmount
-  }, []);                                 // Chạy một lần duy nhất khi component mount
+    // Kích hoạt animation vòng tròn với các tham số tùy chỉnh
+    useBouncingCircleCanvas(
+        canvasRef,
+        color,
+        initialSize,
+        maxSize,
+        minSize,
+        step,
+        positionX,
+        positionY,
+        backgroundColor
+    );
 
-  return (
-    <div
-      className={styles.circle}
-      style={{
-        width: `${size}px`,
-        height: `${size}px`,
-        backgroundColor: COLORS.YELLOW, 
-      }}
-    />
-  );
+    return (
+        // Render thẻ <canvas> với border để dễ quan sát
+        <canvas
+            ref={canvasRef}
+            width={600}
+            height={600}
+            className={Style.myCanvas}
+        />
+    );
 };
 
-export default BouncingCircle;
+export default BouncingCircleCanvas;
