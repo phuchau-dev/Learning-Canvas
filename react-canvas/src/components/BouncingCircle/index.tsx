@@ -21,6 +21,7 @@ const BouncingCircleCanvas: React.FC<BouncingCircleProps> = ({
     positionX,
     positionY,
     backgroundColor = COLORS.BACKGROUND_BLUE,
+    mode = "bounce",
 }) => {
     // useRef để giữ tham chiếu đến thẻ <canvas>
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -35,7 +36,8 @@ const BouncingCircleCanvas: React.FC<BouncingCircleProps> = ({
         step,
         positionX,
         positionY,
-        backgroundColor
+        backgroundColor,
+        mode
     );
 
     return (

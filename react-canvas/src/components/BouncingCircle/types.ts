@@ -7,4 +7,5 @@ export interface BouncingCircleProps {
     positionX?: number;        // Vị trí X của hình tròn trên canvas
     positionY?: number;        // Vị trí Y của hình tròn trên canvas
     backgroundColor?: string;  // Màu nền của canvas (mặc định: trắng)
+    mode?: "reset" | "bounce";  // Chế độ hoạt động của hình tròn
 }

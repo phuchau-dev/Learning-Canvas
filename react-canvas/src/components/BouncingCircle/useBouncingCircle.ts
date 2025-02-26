@@ -25,7 +25,8 @@ export function useBouncingCircleCanvas(
     step: number = 3,
     positionX?: number,
     positionY?: number,
-    backgroundColor: string = COLORS.BACKGROUND_LIGHT
+    backgroundColor: string = COLORS.BACKGROUND_LIGHT,
+    mode: "reset" | "bounce" = "bounce"
 ) {
     const sizeRef = useRef(initialSize);
     const growingRef = useRef(true);
@@ -54,12 +55,22 @@ export function useBouncingCircleCanvas(
         const easingFactor = Math.sin(progress * Math.PI);
         let dynamicStep = step * (0.5 + 0.5 * easingFactor);
 
-        if (growingRef.current) {
-            sizeRef.current += dynamicStep;
-            if (sizeRef.current >= maxSize) growingRef.current = false;
+        if (mode === "reset") {
+            // 🔹 Reset mode: Khi đạt maxSize thì quay lại initialSize ngay lập tức
+            if (sizeRef.current >= maxSize) {
+                sizeRef.current = initialSize;
+            } else {
+                sizeRef.current += step;
+            }
         } else {
-            sizeRef.current -= dynamicStep;
-            if (sizeRef.current <= minSize) growingRef.current = true;
+            // 🔹 Bounce mode: Tăng lên đến maxSize rồi giảm về minSize
+            if (growingRef.current) {
+                sizeRef.current += dynamicStep;
+                if (sizeRef.current >= maxSize) growingRef.current = false;
+            } else {
+                sizeRef.current -= dynamicStep;
+                if (sizeRef.current <= minSize) growingRef.current = true;
+            }
         }
 
         const x = positionX ?? canvas.width / 2;
@@ -72,7 +83,7 @@ export function useBouncingCircleCanvas(
         ctx.closePath();
 
         animationFrameId.current = requestAnimationFrame(draw);
-    }, [canvasRef, color, backgroundColor, maxSize, minSize, step, positionX, positionY]); // 👈 Thêm đầy đủ dependencies
+    }, [canvasRef, color, backgroundColor, maxSize, minSize, step, positionX, positionY,mode,initialSize]); // 👈 Thêm đầy đủ dependencies
 
     useEffect(() => {
         if (!canvasRef.current) return;
