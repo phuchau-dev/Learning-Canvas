@@ -1,15 +1,10 @@
-export const getRandomColors = (num = 10) => {
-    const allColors = [
-        'red', 'green', 'blue', 'purple', 'orange', 'yellow',
-        'pink', 'cyan', 'magenta', 'lime', 'teal', 'indigo',
-        'violet', 'gold', 'silver', 'brown', 'black', 'white',
-        'gray', 'navy', 'olive', 'maroon', 'aqua', 'coral',
-        'salmon', 'turquoise', 'chocolate', 'crimson', 'khaki',
-        'orchid', 'plum', 'lavender', 'peachpuff', 'sienna',
-        'tan', 'tomato', 'wheat', 'thistle', 'seagreen',
-    ];
+export const getRandomColors = (num = 100) => {
+    let baseColor = 0xFF0000;
+    return Array.from({ length: num }, (_, i) => {
+        if (i === 0) return `#FF0000`;
 
-    return Array.from({ length: num }, () =>
-        allColors[Math.floor(Math.random() * allColors.length)]
-    );
+        let variation = (Math.random() > 0.5 ? 1 : -1) * Math.floor(Math.random() * 0x0F0F0F);
+        let newColor = (baseColor + variation) & 0xFFFFFF;
+        return `#${newColor.toString(16).padStart(6, '0')}`;
+    });
 };

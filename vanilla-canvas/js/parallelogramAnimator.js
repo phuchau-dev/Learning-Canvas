@@ -11,7 +11,7 @@ export class ParallelogramAnimator {
         }
         this.ctx = this.canvas.getContext('2d');
 
-        this.colors = getRandomColors(5);
+        this.colors = getRandomColors(100);
         this.colorIndex = 0;
         this.width = 50;
         this.maxWidth = this.canvas.width - 50;
@@ -54,8 +54,9 @@ export class ParallelogramAnimator {
             this.width -= 5;
             if (this.width <= this.minWidth) {
                 this.growing = true;
-                this.colorIndex =
-                    (this.colorIndex + 1) % this.colors.length;
+                this.colors.shift(); //  tiết kiệm bộ nhớ
+                this.colors.push(getRandomColors(1)[0]);
+                this.colorIndex = 0; // Reset về màu đầu
             }
         }
     }
